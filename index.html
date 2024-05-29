@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="noo.js"></script>
+</head>
+
+<body>
+    <p>Hello WQorld</p>
+    <button id="myButton">Click Me!</button>
+<script>
+    noo.ready(function (){
+        noo.http("http://localhost/noo.js/noo.js").start(function (){
+            console.log("started");
+        }).progress(function (data){
+            console.log(data + " bytes has transfered");
+        }).error(function (data){
+            console.log(data + " has happened");
+        }).loaded(function (data){
+            console.log(data + " bytes has transfered");
+        }).get(function (data){
+            console.log(data);
+        });
+    });
+</script>
+</body>
+</html>

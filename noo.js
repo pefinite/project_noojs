@@ -1,0 +1,137 @@
+
+(function (theArgument){
+    theArgument.element = function (elementName, numberOfElement = 1){
+          let theElements = [];
+          for(let x = 0; x  < numberOfElement; x++) {
+              theElements.push(document.createElement(elementName));
+          }
+          return {
+              classes: function (){
+                  for(let x = 0; x < theElements.length; x++) {
+                      for(let y = 0; y < arguments.length; y++) {
+                          theElements[x].classList.add(arguments[y]);
+                      }
+                  }
+                  return this;
+              },
+              data: function (dataName, value) {
+                  for(let x = 0; x < theElements.length; x++) {
+                      theElements[x].setAttribute("data-" + dataName, value);
+                  }
+                  return this;
+              },
+              theAllElements: function () {
+                  return theElements;
+              }
+          };
+     };
+    theArgument.http = function(theRequestUrl, theData = null) {
+        let theRequest = new XMLHttpRequest();
+        return {
+            get: function (theFunction) {
+                theRequest.open("GET", theRequestUrl);
+                theRequest.send();
+                if (typeof theFunction == 'function') {
+                    theRequest.onloadend = function (){
+                        theFunction(theRequest.responseText);
+                    }
+                }
+            },
+            syncGet: function (theFunction){
+                theRequest.open("GET", theRequestUrl, false);
+                theRequest.send();
+                if (typeof theFunction == 'function') {
+                    theRequest.onloadend = function (){
+                        theFunction(theRequest.responseText);
+                    }
+                }
+            },
+            post: function (theFunction){
+                theRequest.open("POST", theRequestUrl);
+                theRequest.send(theData);
+                if (typeof theFunction == 'function') {
+                    theRequest.onloadend = function (){
+                        theFunction(theRequest.responseText);
+                    }
+                }
+            },
+            syncPost: function (theFunction) {
+                theRequest.open("POST", theRequestUrl, false);
+                theRequest.send(theData);
+                if (typeof theFunction == 'function') {
+                    theRequest.onloadend = function (){
+                        theFunction(theRequest.responseText);
+                    }
+                }
+            },
+            start: function (theListenerFunction) {
+                theRequest.addEventListener("loadstart", theListenerFunction);
+                return this;
+            },
+            progress: function (theListenerFunction) {
+                theRequest.addEventListener("progress", function (e){
+                    theListenerFunction(e.loaded);
+                });
+                return this;
+            },
+            loaded: function (theListenerFunction) {
+                theRequest.addEventListener("load", function (e){
+                    theListenerFunction(e.loaded);
+                });
+                return this;
+            },
+            error: function (theListenerFunction){
+                theRequest.addEventListener("error", function (e){
+                    theListenerFunction(theRequest.statusText);
+                });
+                return this;
+            }
+
+        }
+    };
+    window.theFunctionsThoseAreWaitingToExecute = [];
+    theArgument.ready = function () {
+        for(let x = 0; x < arguments.length; x++) {
+            window.theFunctionsThoseAreWaitingToExecute.push(arguments[x]);
+        }
+    };
+    window.noo = theArgument;
+    window.onload = function () {
+        for (let  x= 0; x < window.theFunctionsThoseAreWaitingToExecute.length; x++) {
+            window.theFunctionsThoseAreWaitingToExecute[x]();
+        }
+        window.theFunctionsThoseAreWaitingToExecute = [];
+    };
+})(function noo(){
+    let theSelectedElements = [];
+    for(let  x = 0; x < arguments.length; x++) {
+        let elements = document.querySelectorAll(arguments[x]);
+        for(let y = 0; y < elements.length; y++) {
+            theSelectedElements.push(elements[y]);
+        }
+    }
+    return {
+        appendChild: function (theElementObject) {
+            let theElements = theElementObject.theAllElements();
+            for(let  x= 0; x < theSelectedElements.length; x++) {
+                for (let y = 0; y < theElements.length; y++) {
+                    theSelectedElements[x].appendChild(theElements[y].cloneNode(true));
+                }
+            }
+            return this;
+        },
+        click: function (theFunction) {
+            this.setEvent("click", theFunction);
+        },
+        setEvent: function (eventName, theFunction){
+            for(let x = 0; x < theSelectedElements.length; x++) {
+                theSelectedElements[x].addEventListener(eventName, theFunction);
+            }
+        }
+
+    };
+});
+
+
+
+
