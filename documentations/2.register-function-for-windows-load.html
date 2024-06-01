@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../noo.js"></script>
+</head>
+
+<body>
+
+    <h1>nooJS frameword</h1>
+    <h2>Register functions for waiting the document load</h2>
+    <script>
+    // you are allowed to call the ready function multiple times
+    // index one function at a time
+    noo.ready(function (){
+        console.log("executing the function after the document is ready");
+    });
+
+    // register multiple function at a time
+    noo.ready(
+        function (){
+            console.log("executing multiple: it's the one");
+        },
+        function (){
+            console.log("executing multiple: it's the two");
+        },
+        function (){
+            console.log("executing multiple: it's the three");
+        }
+    );
+</script>
+</body>
+</html>

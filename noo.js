@@ -1,68 +1,75 @@
 
 (function (theArgument){
+    window.noo = theArgument;
     theArgument.element = function (elementName, numberOfElement = 1){
-          let theElements = [];
-          for(let x = 0; x  < numberOfElement; x++) {
-              theElements.push(document.createElement(elementName));
-          }
-          return {
-              classes: function (){
-                  for(let x = 0; x < theElements.length; x++) {
-                      for(let y = 0; y < arguments.length; y++) {
-                          theElements[x].classList.add(arguments[y]);
-                      }
-                  }
-                  return this;
-              },
-              data: function (dataName, value) {
-                  for(let x = 0; x < theElements.length; x++) {
-                      theElements[x].setAttribute("data-" + dataName, value);
-                  }
-                  return this;
-              },
-              theAllElements: function () {
-                  return theElements;
-              }
-          };
-     };
+        let theElements = [];
+        for(let x = 0; x  < numberOfElement; x++) {
+            theElements.push(document.createElement(elementName));
+        }
+        return {
+            classes: function (){
+                for(let x = 0; x < theElements.length; x++) {
+                    for(let y = 0; y < arguments.length; y++) {
+                        theElements[x].classList.add(arguments[y]);
+                    }
+                }
+                return this;
+            },
+            data: function (dataName, value) {
+                for(let x = 0; x < theElements.length; x++) {
+                    theElements[x].setAttribute("data-" + dataName, value);
+                }
+                return this;
+            },
+            theAllElements: function () {
+                return theElements;
+            }
+        };
+    };
+    noo.alert = function (theMessage) {
+        window.alert(theMessage);
+    };
     theArgument.http = function(theRequestUrl, theData = null) {
         let theRequest = new XMLHttpRequest();
         return {
             get: function (theFunction) {
+                if (typeof theFunction == 'function') {
+                    theRequest.onload = function (){
+                        theFunction(theRequest.responseText);
+                    }
+                }
                 theRequest.open("GET", theRequestUrl);
                 theRequest.send();
-                if (typeof theFunction == 'function') {
-                    theRequest.onloadend = function (){
-                        theFunction(theRequest.responseText);
-                    }
-                }
             },
             syncGet: function (theFunction){
+                if (typeof theFunction == 'function') {
+                    theRequest.onload = function (){
+                        theFunction(theRequest.responseText);
+                    }
+                }
                 theRequest.open("GET", theRequestUrl, false);
                 theRequest.send();
-                if (typeof theFunction == 'function') {
-                    theRequest.onloadend = function (){
-                        theFunction(theRequest.responseText);
-                    }
-                }
+
             },
             post: function (theFunction){
+                if (typeof theFunction == 'function') {
+                    theRequest.onload = function (){
+                        theFunction(theRequest.responseText);
+                    }
+                }
                 theRequest.open("POST", theRequestUrl);
                 theRequest.send(theData);
-                if (typeof theFunction == 'function') {
-                    theRequest.onloadend = function (){
-                        theFunction(theRequest.responseText);
-                    }
-                }
+
             },
             syncPost: function (theFunction) {
-                theRequest.open("POST", theRequestUrl, false);
-                theRequest.send(theData);
                 if (typeof theFunction == 'function') {
-                    theRequest.onloadend = function (){
+                    theRequest.onload = function (){
                         theFunction(theRequest.responseText);
                     }
                 }
+                theRequest.open("POST", theRequestUrl, false);
+                theRequest.send(theData);
+
             },
             start: function (theListenerFunction) {
                 theRequest.addEventListener("loadstart", theListenerFunction);
@@ -95,7 +102,7 @@
             window.theFunctionsThoseAreWaitingToExecute.push(arguments[x]);
         }
     };
-    window.noo = theArgument;
+
     window.onload = function () {
         for (let  x= 0; x < window.theFunctionsThoseAreWaitingToExecute.length; x++) {
             window.theFunctionsThoseAreWaitingToExecute[x]();
@@ -131,7 +138,3 @@
 
     };
 });
-
-
-
-

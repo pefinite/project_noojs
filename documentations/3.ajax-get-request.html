@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../noo.js"></script>
+</head>
+
+<body>
+<h1>nooJS frameword</h1>
+<h2>Ajax Get Request</h2>
+<script>
+    noo.ready(function (){
+        noo.http("http://localhost/sitemap.xml").start(function (){
+            console.log("started request: 01");
+        }).progress(function (data){
+            console.log(data + " bytes has transfered: 01");
+        }).error(function (data){
+            console.log(data + " has happened: 01");
+        }).loaded(function (data){
+            console.log(data + " bytes has transfered: 01");
+        }).get(function (data){
+            console.log("the return data of 01: " + data.toString().charAt(2));
+        });
+    });
+
+    noo.ready(function (){
+        noo.http("http://localhost/x.pdf").start(function (){
+            console.log("started request: 02");
+        }).progress(function (data){
+            console.log(data + " bytes has transfered: 02");
+        }).error(function (data){
+            console.log(data + " has happened: 02");
+        }).loaded(function (data){
+            console.log(data + " bytes has transfered: 02");
+        }).get(function (data){
+            console.log("the return data of 02: " + data.toString().charAt(2));
+        });
+    });
+
+</script>
+</body>
+</html>
