@@ -1,3 +1,4 @@
+var theMouseMoveCastingForNooJS = {x: 0, y: 0};
 
 (function (theArgument){
     window.noo = theArgument;
@@ -139,35 +140,35 @@
             this.setEvent("click", theFunction);
             return this;
         },
-        swipeLeft: function (theCallback) {
+        swipe: function (theCallback) {
             this.touchstart(function (evt){
-                var theMouseMoveCastingForNooJS = {x : evt.clientX, y: evt.clientY, left: theCallback};
+                theMouseMoveCastingForNooJS.x = evt.touches[0].clientX;
+                theMouseMoveCastingForNooJS.y = evt.touches[0].clientY;
             });
             this.touchmove(function (evt) {
                 let x = evt.touches[0].clientX;
                 let y = evt.touches[0].clientY;
-                alert("ok");
+                let xDiff = x - theMouseMoveCastingForNooJS.x;
+                let yDiff = y - theMouseMoveCastingForNooJS.y;
+                if (Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+                    if ( xDiff < 0 ) {
+                        theCallback(1, x, y);
+                    } else {
+                        theCallback(2, x, y);
+                    }
+                } else {
+                    if ( yDiff < 0 ) {
+                        theCallback(3, x, y);
+                    } else {
+                        theCallback(4, x, y);
+                    }
+                }
+                theMouseMoveCastingForNooJS.x = x;
+                theMouseMoveCastingForNooJS.y = y;
             });
             return this;
         },
-        swipeRight: function (theCallback){
-            this.touchstart(function (evt){
-                var theMouseMoveCastingForNooJS = {x : evt.clientX, y: evt.clientY, right: theCallback};
-            });
-            return this;
-        },
-        swipeUp: function (callback){
-            this.touchstart(function (evt){
-                var theMouseMoveCastingForNooJS = {x : evt.clientX, y: evt.clientY, up: callback};
-            });
-            return this;
-        },
-        swipeDown: function (callback){
-            this.touchstart(function (evt){
-                var theMouseMoveCastingForNooJS = {x : evt.clientX, y: evt.clientY, down: callback};
-            });
-            return this;
-        },
+
         setEvent: function (eventName, theFunction){
             for(let x = 0; x < theSelectedElements.length; x++) {
                 theSelectedElements[x].addEventListener(eventName, theFunction);
