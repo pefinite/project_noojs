@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../noo.js"></script>
+</head>
+
+<body>
+<h1>nooJS frameword</h1>
+<h2>Ajax Get Request</h2>
+<script>
+
+    // synchronous request doesn't support start or progress function.
+    // because everything(function or code) is blocked when the request is generated.
+    noo("h2").swipeLeft(function (){
+            console.log("to left");
+    });
+    noo("h2").swipeDown(function (){
+        console.log("to down");
+    });
+    noo("h2").swipeUp(function (){
+        console.log("to up");
+    });
+    noo("h2").swipeRight(function (){
+        console.log("to right");
+    });
+
+
+
+</script>
+</body>
+</html>

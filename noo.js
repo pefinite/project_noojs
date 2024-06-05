@@ -127,8 +127,40 @@
             }
             return this;
         },
+        touchstart: function (callback) {
+            this.setEvent("touchstart", callback);
+        },
+        touchmove: function (callback) {
+            this.setEvent("touchmove", callback);
+        },
         click: function (theFunction) {
             this.setEvent("click", theFunction);
+        },
+        swipeLeft: function (theCallback) {
+            this.touchstart(function (evt){
+                var theMouseMoveCastingForNooJS = {x : evt.clientX, y: evt.clientY, left: theCallback};
+            });
+            this.touchmove(function (evt) {
+                let x = evt.touches[0].clientX;
+                let y = evt.touches[0].clientY;
+                alert("" + x + " " + y + "");
+            });
+        },
+        swipeRight: function (theCallback){
+            this.touchstart(function (evt){
+                var theMouseMoveCastingForNooJS = {x : evt.clientX, y: evt.clientY, right: theCallback};
+            });
+
+        },
+        swipeUp: function (callback){
+            this.touchstart(function (evt){
+                var theMouseMoveCastingForNooJS = {x : evt.clientX, y: evt.clientY, up: callback};
+            });
+        },
+        swipeDown: function (callback){
+            this.touchstart(function (evt){
+                var theMouseMoveCastingForNooJS = {x : evt.clientX, y: evt.clientY, down: callback};
+            });
         },
         setEvent: function (eventName, theFunction){
             for(let x = 0; x < theSelectedElements.length; x++) {
