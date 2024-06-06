@@ -178,7 +178,7 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
             for(let x = 0; x < theSelectedElements.length; x++) {
                 theSelectedElements[x].scrollBy({
                     top: 0,
-                    left: 400,
+                    left: 350,
                     behavior: "smooth"
                 });
             }
@@ -187,7 +187,7 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
             for(let x = 0; x < theSelectedElements.length; x++) {
                 theSelectedElements[x].scrollBy({
                     top: 0,
-                    left: -400,
+                    left: -350,
                     behavior: "smooth"
                 });
             }
@@ -195,7 +195,7 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
         scrollUp: function () {
             for(let x = 0; x < theSelectedElements.length; x++) {
                 theSelectedElements[x].scrollBy({
-                    top: 400,
+                    top: 350,
                     left: 0,
                     behavior: "smooth"
                 });
@@ -204,7 +204,7 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
         scrollDown: function () {
             for(let x = 0; x < theSelectedElements.length; x++) {
                 theSelectedElements[x].scrollBy({
-                    top: -500,
+                    top: -350,
                     left: 0,
                     behavior: "smooth"
                 });
