@@ -128,6 +128,10 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
             }
             return this;
         },
+        dblclick: function (callback) {
+            this.setEvent("dblclick", callback);
+            return this;
+        },
         touchstart: function (callback) {
             this.setEvent("touchstart", callback);
             return this;
@@ -140,7 +144,8 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
             this.setEvent("click", theFunction);
             return this;
         },
-        swipe: function (theCallback) {
+        swipe: function () {
+            let theCallback = arguments;
             this.touchstart(function (evt){
                 theMouseMoveCastingForNooJS.x = evt.touches[0].clientX;
                 theMouseMoveCastingForNooJS.y = evt.touches[0].clientY;
@@ -150,17 +155,18 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
                 let y = evt.touches[0].clientY;
                 let xDiff = x - theMouseMoveCastingForNooJS.x;
                 let yDiff = y - theMouseMoveCastingForNooJS.y;
+
                 if (Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
                     if ( xDiff < 0 ) {
-                        theCallback(1, x, y);
+                        theCallback[0](x, y);
                     } else {
-                        theCallback(2, x, y);
+                        theCallback[1](x, y);
                     }
                 } else {
                     if ( yDiff < 0 ) {
-                        theCallback(3, x, y);
+                        theCallback[3](x, y);
                     } else {
-                        theCallback(4, x, y);
+                        theCallback[4](x, y);
                     }
                 }
                 theMouseMoveCastingForNooJS.x = x;
@@ -168,7 +174,42 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
             });
             return this;
         },
-
+        scrollLeft: function() {
+            for(let x = 0; x < theSelectedElements.length; x++) {
+                theSelectedElements[x].scrollBy({
+                    top: 0,
+                    left: 400,
+                    behavior: "smooth"
+                });
+            }
+        },
+        scrollRight: function () {
+            for(let x = 0; x < theSelectedElements.length; x++) {
+                theSelectedElements[x].scrollBy({
+                    top: 0,
+                    left: -400,
+                    behavior: "smooth"
+                });
+            }
+        },
+        scrollUp: function () {
+            for(let x = 0; x < theSelectedElements.length; x++) {
+                theSelectedElements[x].scrollBy({
+                    top: 400,
+                    left: 0,
+                    behavior: "smooth"
+                });
+            }
+        },
+        scrollDown: function () {
+            for(let x = 0; x < theSelectedElements.length; x++) {
+                theSelectedElements[x].scrollBy({
+                    top: -500,
+                    left: 0,
+                    behavior: "smooth"
+                });
+            }
+        },
         setEvent: function (eventName, theFunction){
             for(let x = 0; x < theSelectedElements.length; x++) {
                 theSelectedElements[x].addEventListener(eventName, theFunction);

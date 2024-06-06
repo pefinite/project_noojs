@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="../noo.js"></script>
+    <script src="../noo-1.0.1.js"></script>
 </head>
 
 <body>
@@ -13,8 +13,14 @@
 
     // synchronous request doesn't support start or progress function.
     // because everything(function or code) is blocked when the request is generated.
-    noo("h2").swipeLeft(function (){
+    noo("h2").swipe(function (){
             console.log("to left");
+    }, function (){
+
+    }, function (){
+
+    }, function (){
+
     });
     noo("h2").swipeDown(function (){
         console.log("to down");
