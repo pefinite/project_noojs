@@ -114,7 +114,7 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
     let theSelectedElements = [];
     for(let  x = 0; x < arguments.length; x++) {
         if(typeof arguments[x] === 'object') {
-            theSelectedElements.push(arguments[x]);   
+            theSelectedElements.push(arguments[x]);
         } else {
             let elements = document.querySelectorAll(arguments[x]);
             for(let y = 0; y < elements.length; y++) {
