@@ -113,9 +113,13 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
 })(function noo(){
     let theSelectedElements = [];
     for(let  x = 0; x < arguments.length; x++) {
-        let elements = document.querySelectorAll(arguments[x]);
-        for(let y = 0; y < elements.length; y++) {
-            theSelectedElements.push(elements[y]);
+        if(typeof arguments[x] === 'object') {
+            theSelectedElements.push(arguments[x]);
+        } else {
+            let elements = document.querySelectorAll(arguments[x]);
+            for(let y = 0; y < elements.length; y++) {
+                theSelectedElements.push(elements[y]);
+            }
         }
     }
     return {
