@@ -29,7 +29,6 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
     };
     noo.browser = {
         footprint: function () {
-
                 let canvas = document.createElement('canvas');
                 let ctx = canvas.getContext('2d');
                 // https://www.browserleaks.com/canvas#how-does-it-work
@@ -44,7 +43,6 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
                 ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
                 ctx.fillText(txt, 4, 17);
                 return noo.string(canvas.toDataURL()).hash();
-
         }
     };
     noo.string = function (string) {
@@ -62,6 +60,14 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
                 return hs;
             }
         };
+    };
+    noo.localStorage = {
+        get: function (name, callback) {
+            callback(window.localStorage.getItem(name) === null ? "" : window.localStorage.getItem(name));
+        },
+        set: function (name, value) {
+            window.localStorage.setItem(name, value);
+        }
     };
     noo.alert = function (theMessage) {
         window.alert(theMessage);

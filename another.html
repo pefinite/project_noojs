@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="noo-1.0.1.js"></script>
+</head>
+<body>
+<script>
+    noo.localStorage.set("shazzad", null);
+    noo.localStorage.get("shazzad", function(data){
+        console.log(data);
+    });
+
+    noo.localStorage.set("shazzad", "hossain");
+</script>
+</body>
+</html>
