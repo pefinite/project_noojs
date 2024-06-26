@@ -220,6 +220,9 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
             });
             return this;
         },
+        scroll: function (callback) {
+            this.setEvent("scroll", callback);
+        },
         scrollLeft: function() {
             for(let x = 0; x < theSelectedElements.length; x++) {
                 theSelectedElements[x].scrollBy({
