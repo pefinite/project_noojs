@@ -145,12 +145,95 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
             window.theFunctionsThoseAreWaitingToExecute.push(arguments[x]);
         }
     };
-
     window.onload = function () {
         for (let  x= 0; x < window.theFunctionsThoseAreWaitingToExecute.length; x++) {
             window.theFunctionsThoseAreWaitingToExecute[x]();
         }
         window.theFunctionsThoseAreWaitingToExecute = [];
+    };
+    noo.stats = {
+        oneD: function (data) {
+            return {
+                mean: function (callback) {
+                    let meanValue = 0;
+                    for(let x = 0; x < data.length; x++) {
+                        meanValue += data[x];
+                    }
+                    callback(meanValue / data.length);
+                    return this;
+                },
+                median: function (callback) {
+
+                }
+            };
+        },
+        twoD: function () {
+
+        },
+        multiD: function () {
+
+        }
+    };
+    noo.database = function (databaseName, version) {
+        let db = window.indexedDB.open(databaseName, version);
+        let createOperationCallback = null;
+        let openOperationCallback = null;
+        db.onupgradeneeded = (event) => {
+            function databaseOperation() {
+                let databaseInstance = db.result;
+                return {
+                    table: function (tableName, indices) {
+                        let objectStore = databaseInstance.createObjectStore(tableName, {keyPath: "id"});
+                        for (let x= 0; x < indices.length; x++) {
+                            objectStore.createIndex(indices[x], indices[x]);
+                        }
+                        return this;
+                    }
+                };
+            }
+            createOperationCallback(databaseOperation());
+        };
+        db.onerror = (event) => {
+
+        };
+        db.onsuccess = (event) => {
+            function databaseOperation() {
+                let databaseInstance = db.result;
+                return {
+                    select: function (tableName, callback) {
+                        let objectStore = databaseInstance.transaction(tableName);
+                        objectStore = objectStore.objectStore(tableName);
+                        let data = objectStore.getAll();
+                        data.onsuccess = function () {
+                            callback(data.result);
+                        };
+                        return this;
+                    },
+                    delete: function () {
+                        return this;
+                    },
+                    update: function () {
+                        return this;
+                    },
+                    insert: function (tableName, data){
+                        let objectStore = databaseInstance.transaction([tableName], "readwrite");
+                        objectStore = objectStore.objectStore(tableName);
+                        for(let x = 0; x < data.length; x++) {
+                            objectStore.add(data[x]);
+                        }
+                    }
+                };
+            }
+            if(typeof openOperationCallback === 'function') openOperationCallback(databaseOperation());
+        };
+        return {
+            create: function (callback) {
+                createOperationCallback = callback;
+            },
+            open: function (callback) {
+                openOperationCallback = callback;
+            }
+        }
     };
 })(function noo(){
     let theSelectedElements = [];

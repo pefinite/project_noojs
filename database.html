@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="noo-1.0.1.js"></script>
+</head>
+<body>
+
+
+<script>
+    noo.ready(function (){
+        noo.database("vvscb", 1).create(function (database){
+            database.table("products", ["id", "name", "amount"]);
+        });
+
+
+
+        noo.database("vvscb", 1).open(function (database){
+            database.insert("products", [
+                {id: 3, name: "x", amount: 100},
+                {id: 4, name: "y", amount: 200}
+            ]);
+            database.select("products",  function (data){
+                console.log(data);
+            });
+        });
+
+    });
+</script>
+</body>
+</html>
