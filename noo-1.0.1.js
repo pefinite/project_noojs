@@ -28,7 +28,7 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
         };
     };
     noo.browser = {
-        footprint: function () {
+        footprint: function (callback) {
                 let canvas = document.createElement('canvas');
                 let ctx = canvas.getContext('2d');
                 // https://www.browserleaks.com/canvas#how-does-it-work
@@ -42,7 +42,7 @@ var theMouseMoveCastingForNooJS = {x: 0, y: 0};
                 ctx.fillText(txt, 2, 15);
                 ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
                 ctx.fillText(txt, 4, 17);
-                return noo.string(canvas.toDataURL()).hash();
+                callback(noo.string(canvas.toDataURL()).hash());
         }
     };
     noo.string = function (string) {
